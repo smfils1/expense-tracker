@@ -3,7 +3,7 @@
 exports[`<Header/> Should render Header correctly 1`] = `
 <header>
   <h1>
-    Expenses
+    Expense Tracker
   </h1>
   <NavLink
     activeClassName="is-active"

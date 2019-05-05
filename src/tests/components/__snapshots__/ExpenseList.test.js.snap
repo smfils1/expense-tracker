@@ -8,7 +8,6 @@ exports[`<ExpenseList/> Should render empty expense list correctly 1`] = `
   <p>
     No Expenses
   </p>
-  <ConnectFunction />
 </div>
 `;
 
@@ -41,6 +40,5 @@ exports[`<ExpenseList/> Should render expense list correctly 1`] = `
     key="3"
     note=""
   />
-  <ConnectFunction />
 </div>
 `;

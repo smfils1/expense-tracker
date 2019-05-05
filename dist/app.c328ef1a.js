@@ -40547,7 +40547,105 @@ var getVisibleExpenses = function getVisibleExpenses(expenses, _ref) {
 };
 
 exports.getVisibleExpenses = getVisibleExpenses;
-},{"moment":"../node_modules/moment/moment.js"}],"../node_modules/uuid/lib/rng-browser.js":[function(require,module,exports) {
+},{"moment":"../node_modules/moment/moment.js"}],"components/ExpenseList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.ExpenseList = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactRedux = require("react-redux");
+
+var _ExpenseListItem = _interopRequireDefault(require("./ExpenseListItem"));
+
+var _expenses = require("../selectors/expenses");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+var ExpenseList = function ExpenseList(_ref) {
+  var expenses = _ref.expenses;
+  return _react.default.createElement("div", null, _react.default.createElement("h1", null, "Expenses"), expenses.length === 0 ? _react.default.createElement("p", null, "No Expenses") : expenses.map(function (item) {
+    return _react.default.createElement(_ExpenseListItem.default, _extends({}, item, {
+      key: item.id
+    }));
+  }));
+};
+
+exports.ExpenseList = ExpenseList;
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    expenses: (0, _expenses.getVisibleExpenses)(state.expenses, state.filter)
+  };
+};
+
+var _default = (0, _reactRedux.connect)(mapStateToProps)(ExpenseList);
+
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","./ExpenseListItem":"components/ExpenseListItem.js","../selectors/expenses":"selectors/expenses.js"}],"selectors/expensesTotal.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var totalAmount = function totalAmount(currentTotal, currentAmount) {
+  return currentTotal + currentAmount;
+};
+
+var _default = function _default(expenses) {
+  return expenses.map(function (expense) {
+    return expense.amount;
+  }).reduce(totalAmount, 0);
+};
+
+exports.default = _default;
+},{}],"components/ExpensesSummary.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.ExpensesSummary = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _expensesTotal = _interopRequireDefault(require("../selectors/expensesTotal"));
+
+var _reactRedux = require("react-redux");
+
+var _expenses = require("../selectors/expenses");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ExpensesSummary = function ExpensesSummary(_ref) {
+  var _ref$expensesCount = _ref.expensesCount,
+      expensesCount = _ref$expensesCount === void 0 ? 0 : _ref$expensesCount,
+      _ref$expensesTotalAmo = _ref.expensesTotalAmount,
+      expensesTotalAmount = _ref$expensesTotalAmo === void 0 ? 0 : _ref$expensesTotalAmo;
+  return _react.default.createElement("div", null, _react.default.createElement("h3", null, "Viewing ", expensesCount, " expenses totalling $", expensesTotalAmount));
+};
+
+exports.ExpensesSummary = ExpensesSummary;
+
+var mapStateToProps = function mapStateToProps(state) {
+  var expenses = (0, _expenses.getVisibleExpenses)(state.expenses, state.filter);
+  return {
+    expensesCount: expenses.length,
+    expensesTotalAmount: (0, _expensesTotal.default)(expenses) / 100
+  };
+};
+
+var _default = (0, _reactRedux.connect)(mapStateToProps)(ExpensesSummary);
+
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","../selectors/expensesTotal":"selectors/expensesTotal.js","react-redux":"../node_modules/react-redux/es/index.js","../selectors/expenses":"selectors/expenses.js"}],"../node_modules/uuid/lib/rng-browser.js":[function(require,module,exports) {
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
 // and inconsistent support for the `crypto` API.  We do the best we can via
@@ -60871,49 +60969,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ExpenseListFilters);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","uuid":"../node_modules/uuid/index.js","../actions/filters":"actions/filters.js","react-dates":"../node_modules/react-dates/index.js"}],"components/ExpenseList.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.ExpenseList = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _reactRedux = require("react-redux");
-
-var _ExpenseListItem = _interopRequireDefault(require("./ExpenseListItem"));
-
-var _expenses = require("../selectors/expenses");
-
-var _ExpenseListFilters = _interopRequireDefault(require("./ExpenseListFilters"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-var ExpenseList = function ExpenseList(_ref) {
-  var expenses = _ref.expenses;
-  return _react.default.createElement("div", null, _react.default.createElement("h1", null, "Expenses"), expenses.length === 0 ? _react.default.createElement("p", null, "No Expenses") : expenses.map(function (item) {
-    return _react.default.createElement(_ExpenseListItem.default, _extends({}, item, {
-      key: item.id
-    }));
-  }), _react.default.createElement(_ExpenseListFilters.default, null));
-};
-
-exports.ExpenseList = ExpenseList;
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    expenses: (0, _expenses.getVisibleExpenses)(state.expenses, state.filter)
-  };
-};
-
-var _default = (0, _reactRedux.connect)(mapStateToProps)(ExpenseList);
-
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","./ExpenseListItem":"components/ExpenseListItem.js","../selectors/expenses":"selectors/expenses.js","./ExpenseListFilters":"components/ExpenseListFilters.js"}],"components/ExpenseDashboard.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","uuid":"../node_modules/uuid/index.js","../actions/filters":"actions/filters.js","react-dates":"../node_modules/react-dates/index.js"}],"components/ExpenseDashboard.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60925,15 +60981,19 @@ var _react = _interopRequireDefault(require("react"));
 
 var _ExpenseList = _interopRequireDefault(require("./ExpenseList"));
 
+var _ExpensesSummary = _interopRequireDefault(require("./ExpensesSummary"));
+
+var _ExpenseListFilters = _interopRequireDefault(require("./ExpenseListFilters"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ExpenseDashboard = function ExpenseDashboard() {
-  return _react.default.createElement(_ExpenseList.default, null);
+var ExpenseDashboard = function ExpenseDashboard(props) {
+  return _react.default.createElement("div", null, _react.default.createElement(_ExpensesSummary.default, null), _react.default.createElement(_ExpenseListFilters.default, null), _react.default.createElement(_ExpenseList.default, null));
 };
 
 var _default = ExpenseDashboard;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./ExpenseList":"components/ExpenseList.js"}],"components/ExpenseForm.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./ExpenseList":"components/ExpenseList.js","./ExpensesSummary":"components/ExpensesSummary.js","./ExpenseListFilters":"components/ExpenseListFilters.js"}],"components/ExpenseForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60989,7 +61049,7 @@ function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "state", {
       description: _this.props.expense ? _this.props.expense.description : '',
-      amount: _this.props.expense ? (props.expense.amount / 100).toString() : '',
+      amount: _this.props.expense ? (_this.props.expense.amount / 100).toString() : '',
       note: _this.props.expense ? _this.props.expense.note : '',
       createdAt: _this.props.expense ? (0, _moment.default)(_this.props.expense.createdAt) : (0, _moment.default)(),
       calendarFocused: false,

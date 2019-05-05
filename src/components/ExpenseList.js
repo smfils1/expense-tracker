@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import ListItem from "./ExpenseListItem";
 import {getVisibleExpenses} from '../selectors/expenses'
-import ExpenseListFilters from './ExpenseListFilters'
 
 export const ExpenseList = ({expenses}) => (
   <div>
@@ -13,7 +12,6 @@ export const ExpenseList = ({expenses}) => (
       <ListItem {...item} key={item.id} />   
     ))
     }    
-    <ExpenseListFilters/>
   </div>
 );
 
