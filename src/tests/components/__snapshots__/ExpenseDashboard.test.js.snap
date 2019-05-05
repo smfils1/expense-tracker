@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ExpenseDashboard/> Should render expense dashboard list correctly 1`] = `<ConnectFunction />`;
